@@ -2,6 +2,8 @@ package com.kavindu.hotelapplication.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,23 +19,30 @@ import java.time.LocalDate;
 public class Feedback {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Payment_ID")
-    private Integer paymentId;
+    @Column(name = "Feedback_ID")
+    private Integer feedbackId;
 
     @NotNull
-    @Column(name = "Payment_Method",nullable=false)
-    private String paymentMethod;
+    @Column(name = "Feedback_Type", nullable = false, length = 50)
+    private String feedbackType;
 
     @NotNull
-    @DecimalMin("10.00")
-    @Column(name = "Amount", precision = 10, scale = 2, nullable = false)
-    private BigDecimal amount;
+    @Min(1)
+    @Max(5)
+    @Column(name = "Rating", nullable = false)
+    private Integer rating;
+
+    @Column(name = "Comments",nullable = false)
+    private String comments;
 
     @NotNull
-    @Column(name = "Payment_Date", nullable = false)
-    private LocalDate paymentDate;
+    @Column(name = "Submitted_Date", nullable = false)
+    private LocalDate submittedDate;
 
     @ManyToOne
     @JoinColumn(name = "Booking_ID", nullable = false)
     private Booking booking;
-}
+
+    @ManyToOne
+    @JoinColumn(name = "Customer_ID", nullable = false)
+    private Customer customer;}

@@ -1,6 +1,7 @@
 package com.kavindu.hotelapplication.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -18,32 +20,24 @@ public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Feedback_ID")
-    private Integer feedbackId;
+    @Column(name = "Payment_ID")
+    private Integer paymentId;
 
     @NotNull
-    @Column(name = "Feedback_Type", nullable = false, length = 50)
-    private String feedbackType;
+    @Column(name = "Payment_Method",nullable=false)
+    private String paymentMethod;
 
     @NotNull
-    @Min(1)
-    @Max(5)
-    @Column(name = "Rating", nullable = false)
-    private Integer rating;
-
-    @Column(name = "Comments",nullable = false)
-    private String comments;
+    @DecimalMin("10.00")
+    @Column(name = "Amount", precision = 10, scale = 2, nullable = false)
+    private BigDecimal amount;
 
     @NotNull
-    @Column(name = "Submitted_Date", nullable = false)
-    private LocalDate submittedDate;
+    @Column(name = "Payment_Date", nullable = false)
+    private LocalDate paymentDate;
 
     @ManyToOne
     @JoinColumn(name = "Booking_ID", nullable = false)
     private Booking booking;
-
-    @ManyToOne
-    @JoinColumn(name = "Customer_ID", nullable = false)
-    private Customer customer;
 
 }
